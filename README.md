@@ -1,2 +1,2 @@
 # snakegameJS
-A snake game made with Javascript and html canvas
+A snake game made with Javascript and HTML canvas

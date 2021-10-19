@@ -1,30 +1,42 @@
+// Make apple not spawn on new snake parts
+// Fix body collision
+// Move score above canvas
+// Game over logic + text
+// Pause & reset button
+
 const canvas = document.getElementById('game')
 const cvs = canvas.getContext('2d');
 
-class snakePart {
+//speed the game updates the render
+let speed = 5;
+
+//Canvas grid + positions
+let tileCount = canvas.width / 21;
+let tileSize = tileCount - 1;
+let headX = 10;
+let headY = 10;
+
+//Snake body variables
+const snakeParts = [];
+let tailLength = 0;
+class snakePart { //class for the snakes body part
     constructor (x, y){
         this.x = x;
         this.y = y;
     }
 }
 
-//speed the game updates the render
-let speed = 5;
+console.log(snakeParts)
 
-let tileCount = canvas.width / 21;
-let tileSize = tileCount;
-let headX = 10;
-let headY = 10;
-const snakeParts = [];
-let tailLength = 0;
+let score = 0;
 
 function randomPosition(x, y) {
     x = Math.floor(Math.random() * 20 + 1);
     y = Math.floor(Math.random() * 20 + 1);
-    while (x === 10 || y === 10) {
+    while (x === headX || y === headY) {
         x = Math.floor(Math.random() * 20 + 1);
         y = Math.floor(Math.random() * 20 + 1);
-    }
+    } // Apple will not be on top of player at start
     return {
         x: x,
         y: y,
@@ -41,12 +53,19 @@ let yVel = 0;
 
 //View game loop
 function drawGame() {
-    makeScreen();
     changeSnakePosition();
+    makeScreen();
     appleCollision();
     drawApple();
     drawSnake();
+    drawScore();
     setTimeout(drawGame, 1000/ speed)
+}
+
+function drawScore() {
+    cvs.fillStyle = "white";
+    cvs.font = "1rem Roboto";
+    cvs.fillText("Score " + score, canvas.width-70, 20)
 }
 
 //Drawing the background
@@ -56,10 +75,6 @@ function makeScreen() {
 }
 
 function drawSnake() {
-    cvs.fillStyle = 'green';
-    cvs.fillRect(headX * tileCount, headY * tileCount, 
-                 tileSize, tileSize)
-
     cvs.fillStyle = 'orange';
     for(let i=0; i < snakeParts.length; i++) {
         let part = snakeParts[i];
@@ -67,9 +82,13 @@ function drawSnake() {
         };
 
     snakeParts.push(new snakePart(headX, headY));
-    if(snakeParts.length > tailLength){
+    while(snakeParts.length > tailLength){
         snakeParts.shift();
-    }
+    };
+
+    cvs.fillStyle = 'green';
+    cvs.fillRect(headX * tileCount, headY * tileCount, 
+                 tileSize, tileSize)
 }
 
 function drawApple() {
@@ -83,7 +102,9 @@ function appleCollision() {
         applePos = randomPosition();
         appleX = applePos.x;
         appleY = applePos.y;
-        tailLength++;
+        tailLength++ //increases taillength;
+        score++ //increases scoore;
+        speed+=.10 //increases speed;
     }
 }
 

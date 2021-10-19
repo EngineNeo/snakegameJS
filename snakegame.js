@@ -1,13 +1,22 @@
 const canvas = document.getElementById('game')
 const cvs = canvas.getContext('2d');
 
+class snakePart {
+    constructor (x, y){
+        this.x = x;
+        this.y = y;
+    }
+}
+
 //speed the game updates the render
-let speed = 3;
+let speed = 5;
 
 let tileCount = canvas.width / 21;
 let tileSize = tileCount;
 let headX = 10;
 let headY = 10;
+const snakeParts = [];
+let tailLength = 0;
 
 function randomPosition(x, y) {
     x = Math.floor(Math.random() * 20 + 1);
@@ -50,6 +59,17 @@ function drawSnake() {
     cvs.fillStyle = 'green';
     cvs.fillRect(headX * tileCount, headY * tileCount, 
                  tileSize, tileSize)
+
+    cvs.fillStyle = 'orange';
+    for(let i=0; i < snakeParts.length; i++) {
+        let part = snakeParts[i];
+        cvs.fillRect(part.x * tileCount, part.y * tileCount, tileSize, tileSize)
+        };
+
+    snakeParts.push(new snakePart(headX, headY));
+    if(snakeParts.length > tailLength){
+        snakeParts.shift();
+    }
 }
 
 function drawApple() {
@@ -63,6 +83,7 @@ function appleCollision() {
         applePos = randomPosition();
         appleX = applePos.x;
         appleY = applePos.y;
+        tailLength++;
     }
 }
 

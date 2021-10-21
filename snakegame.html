@@ -13,13 +13,24 @@
     <!-- Style -->
     <style>
         body {
+            background-color: black;
+        }
+        .main {
             margin: 0px;
             padding: 0px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background-color: black;
+        }
+        .head {
+            display: grid;
+            grid-template-columns: 30rem 10rem 10rem;
+            justify-content: center;
+        }
+        .head > button {
+            margin-top: 1.25rem;
+            height: 2.5rem;
         }
         canvas {
             box-shadow: white 0px 0px 25px;
@@ -27,14 +38,22 @@
         h1 {
             color: white;
             font-family: Roboto, sans-serif;
+            
         }
     </style>
 
     <title>Snake Game</title>
 </head>
 <body>
-    <h1>Snake Game</h1>
-    <canvas id="game" width="800" height="800"/>
+    <div class="head">
+        <h1>Snake Game</h1>
+        <button id="pause">Pause</button>
+        <button id="restart">Restart</button>
+    </div>
+    <div class="main">
+        <canvas id="game" width="800" height="800"/>
+    </div>
+    
     <script src="snakegame.js"></script>
 </body>
 </html>

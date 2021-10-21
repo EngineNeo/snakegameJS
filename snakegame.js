@@ -1,3 +1,5 @@
+//TO-DO
+
 // Make apple not spawn on new snake parts
 // Fix body collision
 // Move score above canvas
@@ -19,24 +21,25 @@ let headY = 10;
 //Snake body variables
 const snakeParts = [];
 let tailLength = 0;
-class snakePart { //class for the snakes body part
+class SnakePart { //class for the snakes body part
     constructor (x, y){
         this.x = x;
         this.y = y;
     }
 }
 
-console.log(snakeParts)
-
 let score = 0;
 
 function randomPosition(x, y) {
     x = Math.floor(Math.random() * 20 + 1);
     y = Math.floor(Math.random() * 20 + 1);
-    while (x === headX || y === headY) {
-        x = Math.floor(Math.random() * 20 + 1);
-        y = Math.floor(Math.random() * 20 + 1);
-    } // Apple will not be on top of player at start
+    for(let i=0; i < snakeParts.length; i++) {
+        let part = snakeParts[i];
+        while (x === headX || x === part.x || y === headY || y === part.y) {
+            x = Math.floor(Math.random() * 20 + 1);
+            y = Math.floor(Math.random() * 20 + 1);
+        }; // Apple will not be on top of player at start
+    };
     return {
         x: x,
         y: y,
@@ -56,10 +59,12 @@ function drawGame() {
     changeSnakePosition();
     makeScreen();
     appleCollision();
-    drawApple();
     drawSnake();
+    drawApple();
     drawScore();
-    setTimeout(drawGame, 1000/ speed)
+    pauseGame();
+    // console.log(snakeParts)
+    gameTime = setTimeout(drawGame, 1000/ speed)
 }
 
 function drawScore() {
@@ -81,7 +86,7 @@ function drawSnake() {
         cvs.fillRect(part.x * tileCount, part.y * tileCount, tileSize, tileSize)
         };
 
-    snakeParts.push(new snakePart(headX, headY));
+    snakeParts.push(new SnakePart(headX, headY));
     while(snakeParts.length > tailLength){
         snakeParts.shift();
     };
@@ -103,10 +108,20 @@ function appleCollision() {
         appleX = applePos.x;
         appleY = applePos.y;
         tailLength++ //increases taillength;
-        score++ //increases scoore;
+        score++ //increases score;
         speed+=.10 //increases speed;
     }
 }
+
+document.getElementById('pause').onclick
+
+function pauseGame() {
+    let pauseButton = document.getElementById('pause');
+    pauseButton.onclick = () => {
+        clearTimeout(gameTime);
+        pauseButton.innerText = 'Resume';};
+}
+
 
 function changeSnakePosition() {
     headX = headX + xVel;

@@ -18,7 +18,7 @@ let headY = 10;
 
 //Snake body variables
 const snakeParts = [];
-let tailLength = 0;
+let tailLength = 100;
 class SnakePart { //class for the snakes body part
     constructor (x, y){
         this.x = x;
@@ -31,9 +31,20 @@ let score = 0;
 function randomPosition(x, y) {
     x = Math.floor(Math.random() * 20 + 1);
     y = Math.floor(Math.random() * 20 + 1);
-    while (x === headX && y === headY) {
-        x = Math.floor(Math.random() * 20 + 1);
-        y = Math.floor(Math.random() * 20 + 1);
+    for(let i=0; i < snakeParts.length; i++) {
+        let part = snakeParts[i];
+        let partAppleColission = false;
+        if (part.x === x && part.y === y) {
+            partAppleColission = true;
+        }
+        while ( x === headX && y === headY || partAppleColission === true) {
+            x = Math.floor(Math.random() * 20 + 1);
+            y = Math.floor(Math.random() * 20 + 1);
+            if (part.x !== x && part.y !== y) {
+                partAppleColission = false;
+            }
+        }
+        
     };
     return {
         x: x,
@@ -103,8 +114,8 @@ function checkgameOver() {
     if (gameOver) {
         cvs.font = "7.5rem Roboto";
         let gradient = cvs.createLinearGradient (0, 0, canvas.width, 0);
-        gradient.addColorStop('0', 'magenta');
-        gradient.addColorStop('0.5', 'blue');
+        gradient.addColorStop('0', 'blue');
+        gradient.addColorStop('0.5', 'magenta');
         gradient.addColorStop('1.0', 'red');
 
         cvs.fillStyle = gradient;
@@ -128,8 +139,8 @@ function makeScreen() {
 }
 
 function drawSnake() {
-    cvs.fillStyle = 'orange';
     for(let i=0; i < snakeParts.length; i++) {
+        cvs.fillStyle = `rgb(0, ${(40 + i)} , 0)`;
         let part = snakeParts[i];
         cvs.fillRect(part.x * tileCount, part.y * tileCount, tileSize, tileSize)
         };
@@ -140,7 +151,7 @@ function drawSnake() {
         snakeParts.shift();
     };
 
-    cvs.fillStyle = 'green';
+    cvs.fillStyle = 'rgb(0, 255, 0)';
     cvs.fillRect(headX * tileCount, headY * tileCount, 
                  tileSize, tileSize)
 }
@@ -165,6 +176,23 @@ function appleCollision() {
 
 // Restart game
 let restartButton = document.getElementById('restart');
+function restartGame() {
+    restartButton.onclick = () => {
+        headX = 10;
+        headY = 10;
+        applePos = randomPosition();
+        appleX = applePos.x;
+        appleY = applePos.y;
+        speed = 5;
+        xVel = 0;
+        yVel = 0;
+        score = 0;
+        snakeParts.length = 0;
+        tailLength = 0;
+        drawGame();
+    }
+}
+restartGame();
 
 // Pause button states
 let gameButton = document.getElementById('game-status');

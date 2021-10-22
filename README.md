@@ -3,7 +3,7 @@ A snake game made with Javascript and HTML canvas
 
 - - - -
 
-![Snake Game Picture](snakeGamepic.PNG)
+![Snake Game Picture](snakeGamepic.PNG width="300" height="300")
 
 ### Features:
 

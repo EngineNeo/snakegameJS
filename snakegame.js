@@ -1,8 +1,3 @@
-//TO-DO
-
-// Make apple not spawn on new snake parts
-// reset button
-
 const canvas = document.getElementById('game')
 const cvs = canvas.getContext('2d');
 

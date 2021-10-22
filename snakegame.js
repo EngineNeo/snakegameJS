@@ -18,7 +18,7 @@ let headY = 10;
 
 //Snake body variables
 const snakeParts = [];
-let tailLength = 100;
+let tailLength = 0;
 class SnakePart { //class for the snakes body part
     constructor (x, y){
         this.x = x;

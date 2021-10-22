@@ -33,15 +33,15 @@ function randomPosition(x, y) {
     y = Math.floor(Math.random() * 20 + 1);
     for(let i=0; i < snakeParts.length; i++) {
         let part = snakeParts[i];
-        let partAppleColission = false;
+        let partApple = false;
         if (part.x === x && part.y === y) {
-            partAppleColission = true;
+            partApple = true;
         }
-        while ( x === headX && y === headY || partAppleColission === true) {
+        while ( x === headX && y === headY || partApple === true) {
             x = Math.floor(Math.random() * 20 + 1);
             y = Math.floor(Math.random() * 20 + 1);
             if (part.x !== x && part.y !== y) {
-                partAppleColission = false;
+                partApple = false;
             }
         }
         
